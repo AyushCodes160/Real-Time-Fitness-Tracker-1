@@ -28,15 +28,15 @@ export const checkSquatForm = (landmarks: Landmark[]): string => {
   const PERFECT_HIP_ANGLE = 90;
 
   if (kneeAngle < 60) {
-    return '⚠️ Squat Form: Knees are bending too much forward. Keep them aligned with your toes.';
+    return '🔴 Squat Form: Knees are bending too much forward. Keep them aligned with your toes.';
   }
 
   if (hipAngle < 45) {
-    return '⚠️ Squat Form: Not hinging at hips enough. Push your hips back more while keeping chest up.';
+    return '🔴 Squat Form: Not hinging at hips enough. Push your hips back more while keeping chest up.';
   }
 
   if (kneeAngle > 170 && hipAngle > 160) {
-    return '⚠️ Squat Form: Not squatting deep enough. Try to reach parallel position.';
+    return '🔴 Squat Form: Not squatting deep enough. Try to reach parallel position.';
   }
 
   // Calculate how close to perfect form
@@ -44,10 +44,10 @@ export const checkSquatForm = (landmarks: Landmark[]): string => {
   const hipDeviation = Math.abs(PERFECT_HIP_ANGLE - hipAngle);
 
   if (kneeDeviation < 15 && hipDeviation < 15) {
-    return '✅ Perfect Squat Form! Keep it up! 💪';
+    return '🟢 Perfect Squat Form! Keep it up! 💪';
   }
 
-  return '👍 Good Squat Form - Keep going!';
+  return '🟢 Good Squat Form - Keep going!';
 };
 
 export const checkPushupForm = (landmarks: Landmark[]): string => {
@@ -71,15 +71,15 @@ export const checkPushupForm = (landmarks: Landmark[]): string => {
   const PERFECT_BODY_ANGLE = 180;
 
   if (elbowAngle < 45) {
-    return '⚠️ Push-up Form: Going too low. Keep your elbows at 90 degrees at the bottom.';
+    return '🔴 Push-up Form: Going too low. Keep your elbows at 90 degrees at the bottom.';
   }
 
   if (elbowAngle > 120) {
-    return '⚠️ Push-up Form: Not going low enough. Lower your chest while maintaining form.';
+    return '🔴 Push-up Form: Not going low enough. Lower your chest while maintaining form.';
   }
 
   if (bodyAngle < 160) {
-    return '⚠️ Push-up Form: Hips are sagging. Keep your body in a straight line from head to heels.';
+    return '🔴 Push-up Form: Hips are sagging. Keep your body in a straight line from head to heels.';
   }
 
   // Calculate how close to perfect form
@@ -87,8 +87,8 @@ export const checkPushupForm = (landmarks: Landmark[]): string => {
   const bodyDeviation = Math.abs(PERFECT_BODY_ANGLE - bodyAngle);
 
   if (elbowDeviation < 15 && bodyDeviation < 10) {
-    return '✅ Perfect Push-up Form! Keep it up! 💪';
+    return '🟢 Perfect Push-up Form! Keep it up! 💪';
   }
 
-  return '👍 Good Push-up Form - Keep pushing!';
+  return '🟢 Good Push-up Form - Keep pushing!';
 }; 

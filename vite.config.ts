@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/fitness-tracker/',
+  base: '/Real-Time-Fitness-Tracker-1/',
   server: {
     host: true
   }

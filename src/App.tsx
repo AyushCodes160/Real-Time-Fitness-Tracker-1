@@ -139,7 +139,13 @@ function App() {
             {formFeedback && (
               <div className="p-4 bg-gray-900 rounded-lg shadow-md ring-1 ring-blue-500/20 transform transition-all duration-500 hover:scale-[1.02] feedback-transition">
                 <h3 className="font-semibold mb-2 text-blue-400">Form Feedback:</h3>
-                <p className="text-gray-300">{formFeedback}</p>
+                <p className={`text-lg ${
+                  formFeedback.includes('🔴') ? 'text-red-400' : 
+                  formFeedback.includes('🟢') ? 'text-green-400' : 
+                  'text-gray-300'
+                }`}>
+                  {formFeedback}
+                </p>
               </div>
             )}
           </div>
