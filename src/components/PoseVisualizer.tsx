@@ -25,7 +25,7 @@ const PoseVisualizer: React.FC<PoseVisualizerProps> = React.memo(({ landmarks })
   }, [landmarks]);
 
   const sphereMaterial = useMemo(() => (
-    <meshStandardMaterial color="hotpink" emissive="hotpink" emissiveIntensity={0.3} />
+    <meshStandardMaterial color="#E50914" emissive="#E50914" emissiveIntensity={0.5} />
   ), []);
 
   if (!points.length) return null;

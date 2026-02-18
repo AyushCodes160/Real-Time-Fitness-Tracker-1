@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light;
+  
+  color-scheme: dark; /* Force dark mode preference */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,38 +18,22 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f3f4f6;
+  @apply bg-netflix-black text-netflix-white; /* Use Tailwind colors */
+  overflow-x: hidden;
 }
 
 #root {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5),
-                 0 0 20px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.8),
-                 0 0 30px rgba(59, 130, 246, 0.5);
-  }
-}
-
-@keyframes slideIn {
+@keyframes slideUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -59,60 +44,50 @@ body {
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-/* Custom utility classes */
+/* Custom Netflix-style Components */
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-lg transition-colors duration-200;
+    @apply px-6 py-2 rounded font-bold transition-all duration-300 ease-in-out;
   }
   
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-netflix-red text-white hover:bg-red-700 shadow-lg hover:shadow-red-900/40;
   }
   
   .btn-secondary {
-    @apply bg-gray-200 text-gray-700 hover:bg-gray-300;
+    @apply bg-gray-500/30 text-white hover:bg-gray-500/50 backdrop-blur-sm border border-gray-600;
   }
 
-  .card {
-    @apply bg-white rounded-lg shadow-md p-4;
+  /* Netflix Card Style */
+  .netflix-card {
+    @apply bg-netflix-dark rounded-md overflow-hidden relative transition-transform duration-300 hover:z-10 hover:scale-105 shadow-xl;
   }
 
-  .animated-title {
-    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500;
-    background-size: 200% 200%;
-    animation: gradient 8s ease infinite, glow 2s ease-in-out infinite;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    @apply font-bold;
+  /* Typography */
+  .netflix-title {
+    @apply text-5xl font-extrabold tracking-tighter text-netflix-red drop-shadow-md;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
   }
 
-  .exercise-transition {
-    animation: slideIn 0.5s ease-out;
+  .netflix-subtitle {
+    @apply text-xl text-netflix-light font-medium;
   }
+  
+  /* Input/Select Styles */
+  .netflix-input {
+    @apply bg-black/60 border border-gray-600 rounded text-white px-4 py-2 focus:border-white focus:outline-none focus:ring-1 focus:ring-white transition-colors;
+  }
+}
 
-  .feedback-transition {
-    animation: fadeIn 0.3s ease-out;
-  }
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .active-exercise {
-    animation: pulse 2s ease-in-out infinite;
-  }
+::-webkit-scrollbar-track {
+  @apply bg-netflix-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-700 rounded-full hover:bg-gray-500;
 } 

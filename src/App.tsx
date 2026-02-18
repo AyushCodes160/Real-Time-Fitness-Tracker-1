@@ -24,7 +24,7 @@ function App() {
         const vision = await FilesetResolver.forVisionTasks(
           "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
         );
-        
+
         const poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
           baseOptions: {
             modelAssetPath: "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
@@ -33,7 +33,7 @@ function App() {
           runningMode: "VIDEO",
           numPoses: 1
         });
-        
+
         setPoseLandmarker(poseLandmarker);
       } catch (error) {
         console.error('Error initializing PoseLandmarker:', error);
@@ -68,18 +68,18 @@ function App() {
     if (timeElapsed >= frameInterval) {
       try {
         const results = await poseLandmarker.detectForVideo(videoRef.current, currentTime);
-        
+
         if (results.landmarks && results.landmarks[0]) {
           setLandmarks(results.landmarks[0]);
-          
+
           // Validate form based on selected exercise
-          const feedback = selectedExercise === 'squat' 
+          const feedback = selectedExercise === 'squat'
             ? checkSquatForm(results.landmarks[0])
             : checkPushupForm(results.landmarks[0]);
-          
+
           setFormFeedback(feedback);
         }
-        
+
         lastProcessedTime.current = currentTime;
       } catch (error) {
         console.error('Error processing frame:', error);
@@ -103,54 +103,69 @@ function App() {
   }, [isWebcamActive, poseLandmarker, selectedExercise]);
 
   return (
-    <div className="min-h-screen p-4 bg-gradient-to-b from-black to-gray-900">
+    <div className="min-h-screen p-4 bg-netflix-black text-netflix-white">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl mb-6 text-center animated-title">
-          Real-time Fitness Tracker
-        </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4 transform transition-all duration-500 hover:scale-[1.02]">
+        <header className="mb-10 flex flex-col items-center">
+          <h1 className="netflix-title mb-2">
+            Real-time Fitness Tracker
+          </h1>
+          <p className="netflix-subtitle">Powered by AI Pose Detection</p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="space-y-6">
             <ExerciseSelector
               selectedExercise={selectedExercise}
               onSelectExercise={setSelectedExercise}
             />
-            
-            <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-lg ring-1 ring-blue-500/20">
+
+            <div className="relative aspect-video bg-netflix-dark rounded-md overflow-hidden shadow-2xl ring-1 ring-netflix-dark-gray group">
               <video
                 ref={videoRef}
                 autoPlay
                 playsInline
                 muted
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
               />
               {!isWebcamActive && (
-                <button
-                  onClick={startWebcam}
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white hover:bg-opacity-60 transition-all duration-300 hover:text-blue-400"
-                >
-                  <span className="transform transition-transform hover:scale-110">
-                    Start Camera
-                  </span>
-                </button>
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 z-10">
+                  <button
+                    onClick={startWebcam}
+                    className="btn btn-primary flex items-center gap-2 transform hover:scale-105 transition-transform"
+                  >
+                    <span className="text-xl">▶</span> Start Camera
+                  </button>
+                  <p className="mt-4 text-netflix-light text-sm">Allow camera access to begin tracking</p>
+                </div>
+              )}
+              {/* Recording/Active Indicator */}
+              {isWebcamActive && (
+                <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/60 px-3 py-1 rounded-full">
+                  <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-bold tracking-wider text-white">LIVE</span>
+                </div>
               )}
             </div>
 
             {formFeedback && (
-              <div className="p-4 bg-gray-900 rounded-lg shadow-md ring-1 ring-blue-500/20 transform transition-all duration-500 hover:scale-[1.02] feedback-transition">
-                <h3 className="font-semibold mb-2 text-blue-400">Form Feedback:</h3>
-                <p className={`text-lg ${
-                  formFeedback.includes('🔴') ? 'text-red-400' : 
-                  formFeedback.includes('🟢') ? 'text-green-400' : 
-                  'text-gray-300'
-                }`}>
+              <div className="netflix-card p-6 border-l-4 border-netflix-red feedback-transition">
+                <h3 className="text-lg font-bold mb-2 text-white flex items-center gap-2">
+                  Feedback
+                </h3>
+                <p className={`text-lg font-medium leading-relaxed ${formFeedback.includes('🔴') ? 'text-red-500' :
+                  formFeedback.includes('🟢') ? 'text-green-500' :
+                    'text-netflix-light'
+                  }`}>
                   {formFeedback}
                 </p>
               </div>
             )}
           </div>
 
-          <div className="h-[500px] bg-gray-900 rounded-lg overflow-hidden shadow-lg ring-1 ring-blue-500/20 transform transition-all duration-500 hover:scale-[1.02] exercise-transition">
+          <div className="h-[500px] netflix-card border border-netflix-dark-gray exercise-transition relative">
+            <div className="absolute top-4 left-4 z-10 bg-black/50 px-3 py-1 rounded text-xs font-mono text-netflix-light">
+              3D VISUALIZATION
+            </div>
             <Canvas
               key={selectedExercise}
               camera={{
